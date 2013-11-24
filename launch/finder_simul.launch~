@@ -1,0 +1,17 @@
+<!-- SIMULATION ENV -->
+<launch>
+
+  <!-- Launch RVIZ with Turtlebot -->
+  <include file="$(find easy)/launch/fake_turtlebot_map.launch" />
+  
+  <!-- Launch Blank map and move_base -->
+  <include file="$(find MotionControl)/launch/blank_map.launch" />
+  
+  <!-- Launch sound player -->
+  <node name="soundplay_node" pkg="sound_play" type="soundplay_node.py"/>  
+
+  <!-- Launch sound player -->
+  <node name="findObject" pkg="findObject" type="findObject"/>  
+
+</launch>
+

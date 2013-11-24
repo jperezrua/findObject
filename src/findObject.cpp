@@ -26,6 +26,8 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/video/tracking.hpp>
+#include <sound_play/SoundRequest.h>
+#include <sound_play/sound_play.h>
 
 #include <PatternDetector.hpp>
 #include <Tracker.hpp>
@@ -51,6 +53,8 @@ private:
     geometry_msgs::Twist curVel;
     tf::StampedTransform currPose;
 
+    sound_play::SoundClient sc;
+
     bool nav_busy;
 
     void goalDone(const actionlib::SimpleClientGoalState &state);
@@ -67,6 +71,7 @@ ObjectFinder::ObjectFinder(){
     nav_busy=false;
 
     srand (time(NULL));
+
 }
 
 void ObjectFinder::applyAction(  ){
@@ -90,8 +95,12 @@ void ObjectFinder::applyAction(  ){
     patternDetector.train(patterns);
     PatternTrackingInfo patternInfo;
 
+    sc.say("I am going to search an object");
+    bool sayed=false;
     Tracker tr;
-    while (ros::ok()){
+    int cont = 5000;
+    while (ros::ok() && cont>0){
+        cont--;
         // get current position in map
         tf_.lookupTransform("/map", "/base_link", ros::Time(0), currPose);
 
@@ -134,6 +143,12 @@ void ObjectFinder::applyAction(  ){
             pose_pub_.publish(full_pose);
             // also, stop the navigation by sending the current pose
             stopRobot();
+
+            // say it loudly
+            if (!sayed){
+                sc.say("Hooray, I found the object I was looking for.");
+                sayed=true;
+            }
         }else{
             if (!nav_busy){
                 //go randomly to a position
@@ -153,6 +168,11 @@ void ObjectFinder::applyAction(  ){
                 rgoal.target_pose.pose = targetPose;
                 ac->sendGoal(rgoal, boost::bind(&ObjectFinder::goalDone, this, _1));
                 nav_busy=true;
+
+                if (sayed){
+                    sc.say("Oh no, I lost it again.");
+                    sayed=false;
+                }
             }
         }
 
@@ -168,6 +188,8 @@ void ObjectFinder::applyAction(  ){
         int key = cv::waitKey(30);
         if (key=='q') break;
     }
+
+    sc.say("I got bored, Bye Bye!");
 }
 
 void ObjectFinder::goalDone(const actionlib::SimpleClientGoalState &state){
