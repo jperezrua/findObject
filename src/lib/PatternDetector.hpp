@@ -6,6 +6,7 @@
 #include "Pattern.hpp"
 
 #include <opencv2/opencv.hpp>
+#include <opencv2/nonfree/nonfree.hpp>
 
 class PatternDetector
 {
@@ -15,8 +16,10 @@ public:
      */
     PatternDetector
         (
-        cv::Ptr<cv::FeatureDetector>     detector  =  new cv::ORB(600),
-        cv::Ptr<cv::DescriptorExtractor> extractor =  new cv::ORB(600),
+        cv::Ptr<cv::FeatureDetector>     detector  =  new cv::ORB(800),
+        cv::Ptr<cv::DescriptorExtractor> extractor =  new cv::ORB(800),
+        //cv::Ptr<cv::FeatureDetector>     detector  =  new cv::SURF(20),
+        //cv::Ptr<cv::DescriptorExtractor> extractor =  new cv::SURF(20),
         bool enableRatioTest                       = false
         );
 

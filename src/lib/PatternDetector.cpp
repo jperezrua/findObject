@@ -281,6 +281,11 @@ bool PatternDetector::extractFeatures(const cv::Mat& image,
 	if (keypoints.empty())
 		return false;
 
+    /*cv::Mat a;
+    drawKeypoints(image, keypoints, a);
+    imshow("a",a);
+    waitKey(5);*/
+
 	return true;
 }
 
@@ -288,7 +293,7 @@ void PatternDetector::getMatches(const cv::Mat& queryDescriptors,
 		std::vector<cv::DMatch>& matches, int patternIdx) {
 	matches.clear();
 
-	if (enableRatioTest) {
+    if (enableRatioTest) {
 		std::vector<std::vector<cv::DMatch> > knnMatches;
 
 		// To avoid NaN's when best match has zero distance we will use inversed ratio.

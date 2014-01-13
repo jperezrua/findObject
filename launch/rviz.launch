@@ -1,0 +1,4 @@
+<!-- VISUALIZER -->
+<launch>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find findObject)/rviz/object_view_nav.rviz" />
+</launch>

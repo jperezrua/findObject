@@ -2,8 +2,7 @@
 // File includes:
 #include "Pattern.hpp"
 
-void PatternTrackingInfo::computePose(const Pattern& pattern, const CameraCalibration& calibration)
-{
+void PatternTrackingInfo::computePose(const Pattern& pattern, const CameraCalibration& calibration){
   cv::Mat Rvec;
   cv::Mat_<float> Tvec;
   cv::Mat raux,taux;
@@ -16,10 +15,8 @@ void PatternTrackingInfo::computePose(const Pattern& pattern, const CameraCalibr
   cv::Rodrigues(Rvec, rotMat);
 
   // Copy to transformation matrix
-  for (int col=0; col<3; col++)
-  {
-    for (int row=0; row<3; row++)
-    {        
+  for (int col=0; col<3; col++){
+    for (int row=0; row<3; row++){        
      pose3d.r()(row,col) = rotMat(row,col); // Copy rotation component
     }
     pose3d.t()[col] = Tvec(col); // Copy translation component
@@ -29,20 +26,16 @@ void PatternTrackingInfo::computePose(const Pattern& pattern, const CameraCalibr
   pose3d = pose3d.getInverted();
 }
 
-void PatternTrackingInfo::draw2dContour(cv::Mat& image, cv::Scalar color) const
-{
+void PatternTrackingInfo::draw2dContour(cv::Mat& image, cv::Scalar color) const{
   for (size_t i = 0; i < points2d.size(); i++)
   {
     cv::line(image, points2d[i], points2d[ (i+1) % points2d.size() ], color, 2, CV_AA);
   }
 }
 
-void PatternTrackingInfo::draw2dPoints(cv::Mat& image, cv::Scalar color) const
-{
+void PatternTrackingInfo::draw2dPoints(cv::Mat& image, cv::Scalar color) const{
   for (size_t i = 0; i < points2d.size(); i++)
-  {
     cv::circle(image, points2d[i], 3, color, 2);
-  }
 }
 
 cv::Rect PatternTrackingInfo::getRect(cv::Mat& image)  const{
@@ -72,8 +65,4 @@ cv::Rect PatternTrackingInfo::getRect(cv::Mat& image)  const{
     cv::Rect out(Point2f(minx,miny),Point2f(maxx,maxy));
     return out;
 }
-
-
-
-
 

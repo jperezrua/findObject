@@ -1,0 +1,10 @@
+<launch>
+  <node pkg="findObject" type="findObject" name="findObject">
+    <param name="template_name" type="string" value="/home/juanma/hydro_workspace/sandbox/findObject/data/pattern.jpg" />
+    <param name="kinect_frame_name" type="string" value="/camera_depth_optical_frame" />
+    <param name="robot_frame_name" type="string" value="/base_link" />
+    <param name="rgb_node_name" type="string" value="/camera/rgb/image_raw" />
+    <param name="depth_node_name" type="string" value="/camera/depth/image_raw" />
+    <param name="caminfo_node_name" type="string" value="/camera/rgb/camera_info" />
+  </node>
+</launch>

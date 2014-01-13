@@ -1,0 +1,5 @@
+<!-- VISUALIZER -->
+<launch>
+  <node name="republish1" type="republish" pkg="image_transport" output="screen" args="raw in:=/camera/depth/image_raw raw out:=/depth_image_raw" />
+  <node name="republish2" type="republish" pkg="image_transport" output="screen" args="raw in:=/camera/rgb/image_color raw out:=/rgb_image_color" />
+</launch>

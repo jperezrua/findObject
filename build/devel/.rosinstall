@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/roboticslab/groovy_workspace/sandbox/findObject/build/devel/setup.sh
